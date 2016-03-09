@@ -23,16 +23,16 @@ abstract class Grid {
     val (cmd, from, to) = parser.matchEntire(command)!!.destructured
     Coordinate.of(from).through(Coordinate.of(to)) {
       when (cmd) {
-        "turn on" -> turnOn(it)
-        "turn off" -> turnOff(it)
+        "turn on" -> `turn on`(it)
+        "turn off" -> `turn off`(it)
         "toggle" -> toggle(it)
       }
     }
   }
 
   abstract fun luminance(): Int
-  abstract fun turnOn(pos: Coordinate): Unit
-  abstract fun turnOff(pos: Coordinate): Unit
+  abstract fun `turn on`(pos: Coordinate): Unit
+  abstract fun `turn off`(pos: Coordinate): Unit
   abstract fun toggle(pos: Coordinate): Unit
 }
 
@@ -41,11 +41,11 @@ class Grid1 : Grid() {
 
   override fun luminance() = lights.count { it.value }
 
-  override fun turnOn(pos: Coordinate) {
+  override fun `turn on`(pos: Coordinate) {
     lights[pos] = true
   }
 
-  override fun turnOff(pos: Coordinate) {
+  override fun `turn off`(pos: Coordinate) {
     lights[pos] = false
   }
 
@@ -61,11 +61,11 @@ class Grid2 : Grid() {
 
   override fun luminance() = lights.values.sum()
 
-  override fun turnOn(pos: Coordinate) {
+  override fun `turn on`(pos: Coordinate) {
     lights[pos] = lights[pos] + 1
   }
 
-  override fun turnOff(pos: Coordinate) {
+  override fun `turn off`(pos: Coordinate) {
     lights[pos] = max(lights[pos] - 1, 0)
   }
 

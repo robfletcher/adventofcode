@@ -8,7 +8,7 @@ fun main(vararg args: String) {
   println("${words.count(::nice2)} of ${words.size} words are nice (revised rules)")
 }
 
-val vowels = "aeiou".toCharArray()
+val vowels = "aeiou"
 val doubles = Regex("([a-z])\\1")
 val banned = Regex("(ab)|(cd)|(pq)|(xy)")
 
