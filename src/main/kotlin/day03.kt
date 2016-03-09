@@ -1,5 +1,4 @@
 object day03 {
-
   @JvmStatic
   fun main(vararg args: String) {
     val script = javaClass.classLoader.getResource("day03/input")
