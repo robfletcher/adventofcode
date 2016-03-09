@@ -1,12 +1,10 @@
-object day01 {
-  @JvmStatic
-  fun main(vararg args: String) {
-    val input =
-      javaClass.classLoader.getResource("day01")
-        .readText()
-    println("Final floor: ${input.calculateFloor()}")
-    println("Hit basement on step ${input.findBasement()}")
-  }
+package day1
+
+val input = ClassLoader.getSystemResource("day1.txt").readText()
+
+fun main(vararg args: String) {
+  println("Final floor: ${input.calculateFloor()}")
+  println("Hit basement on step ${input.findBasement()}")
 }
 
 fun String.calculateFloor() =

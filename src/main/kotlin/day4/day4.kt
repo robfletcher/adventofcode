@@ -1,13 +1,14 @@
+package day4
+
 import java.math.BigInteger
 import java.nio.charset.Charset
 import java.security.MessageDigest
 
-object day04 {
-  @JvmStatic
-  fun main(vararg args: String) {
-    println(mine("iwrupvqb", 5))
-    println(mine("iwrupvqb", 6))
-  }
+val secret = ClassLoader.getSystemResource("day4.txt").readText()
+
+fun main(vararg args: String) {
+  println(mine(secret, 5))
+  println(mine(secret, 6))
 }
 
 fun mine(secret: String, len: Int): Int {
