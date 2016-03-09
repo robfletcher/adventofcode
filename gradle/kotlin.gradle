@@ -1,0 +1,11 @@
+repositories {
+  jcenter()
+  maven {
+    url "http://repository.jetbrains.com/all"
+  }
+}
+
+dependencies {
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  testCompile "org.jetbrains.spek:spek:0.1.199"
+}
