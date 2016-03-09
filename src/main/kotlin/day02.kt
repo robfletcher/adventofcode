@@ -1,7 +1,7 @@
 object day02 {
   @JvmStatic
   fun main(vararg args: String) {
-    val boxes = javaClass.classLoader.getResource("day02/input")
+    val boxes = javaClass.classLoader.getResource("day02")
       .readText()
       .lines()
       .map { Box.parse(it) }

@@ -2,7 +2,7 @@ object day01 {
   @JvmStatic
   fun main(vararg args: String) {
     val input =
-      javaClass.classLoader.getResource("day01/input")
+      javaClass.classLoader.getResource("day01")
         .readText()
     println("Final floor: ${input.calculateFloor()}")
     println("Hit basement on step ${input.findBasement()}")
