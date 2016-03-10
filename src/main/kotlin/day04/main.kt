@@ -1,4 +1,4 @@
-package day4
+package day04
 
 import java.math.BigInteger
 import java.nio.charset.Charset

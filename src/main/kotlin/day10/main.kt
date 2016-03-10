@@ -3,7 +3,7 @@ package day10
 val input = "1113222113"
 
 fun main(vararg args: String) {
-  (1..50)
+  (1..10)
     .generate(input, ::lookAndSay)
     .apply { println(length) }
 }
@@ -18,5 +18,5 @@ fun lookAndSay(s: String) = s
   }
   .run { first.append(second).append(third).toString() }
 
-inline fun <T> IntRange.generate(initial: T, operation: (T) -> T) =
+inline fun <R> Iterable<Any>.generate(initial: R, operation: (R) -> R) =
   fold(initial) { acc, ignored -> operation(acc) }

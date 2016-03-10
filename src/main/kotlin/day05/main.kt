@@ -1,4 +1,4 @@
-package day5
+package day05
 
 val input = ClassLoader.getSystemResource("day5.txt").readText()
 
