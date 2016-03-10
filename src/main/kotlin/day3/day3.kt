@@ -3,11 +3,12 @@ package day3
 val input = ClassLoader.getSystemResource("day3.txt").readText()
 
 fun main(vararg args: String) {
-  val numHouses = input
+  input
     .fold(Santa()) { santa, direction -> santa.move(direction) }
     .visited
-    .size
-  println("With 1 santa, visited $numHouses houses")
+    .apply {
+      println("With 1 santa, visited $size houses")
+    }
 
   val numHousesWithRobo = input
     .fold(Pair(Santa(), Santa())) { santas, direction ->

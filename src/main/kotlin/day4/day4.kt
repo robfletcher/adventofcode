@@ -7,8 +7,8 @@ import java.security.MessageDigest
 val input = ClassLoader.getSystemResource("day4.txt").readText()
 
 fun main(vararg args: String) {
-  println(mine(input, 5))
-  println(mine(input, 6))
+  mine(input, 5).apply(::println)
+  mine(input, 6).apply(::println)
 }
 
 fun mine(secret: String, len: Int): Int {
