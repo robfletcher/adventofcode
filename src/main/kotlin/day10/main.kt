@@ -3,7 +3,7 @@ package day10
 val input = "1113222113"
 
 fun main(vararg args: String) {
-  (1..10)
+  (1..50)
     .generate(input, ::lookAndSay)
     .apply { println(length) }
 }
