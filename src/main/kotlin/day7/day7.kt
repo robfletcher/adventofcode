@@ -3,8 +3,11 @@ package day7
 val input = ClassLoader.getSystemResource("day7.txt").readText()
 
 fun main(vararg args: String) {
-  val circuit = Circuit(input.lines())
-  println("The signal on wire a is ${circuit.signalOn("a")}")
+  val signal1 = Circuit(input.lines()).signalOn("a")
+  println("The 1st signal on wire a is $signal1")
+
+  val signal2 = Circuit(input.lines() + "$signal1 -> b").signalOn("a")
+  println("The 2nd signal on wire a is $signal2")
 }
 
 class Circuit private constructor() {
