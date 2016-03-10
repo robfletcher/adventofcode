@@ -9,7 +9,7 @@ fun main(vararg args: String) {
 }
 
 val vowels = "aeiou"
-val doubles = Regex("([a-z])\\1")
+val doubles = Regex("""([a-z])\1""")
 val banned = Regex("(ab)|(cd)|(pq)|(xy)")
 
 fun nice1(s: String) =
@@ -17,8 +17,8 @@ fun nice1(s: String) =
     && doubles.containsMatchIn(s)
     && !banned.containsMatchIn(s)
 
-val twoPair = Regex("([a-z][a-z])[a-z]*\\1")
-val sandwich = Regex("([a-z])[a-z]\\1")
+val twoPair = Regex("""([a-z][a-z])[a-z]*\1""")
+val sandwich = Regex("""([a-z])[a-z]\1""")
 
 fun nice2(s: String) =
   twoPair.containsMatchIn(s)

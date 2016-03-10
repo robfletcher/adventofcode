@@ -4,11 +4,11 @@ import java.math.BigInteger
 import java.nio.charset.Charset
 import java.security.MessageDigest
 
-val secret = ClassLoader.getSystemResource("day4.txt").readText()
+val input = ClassLoader.getSystemResource("day4.txt").readText()
 
 fun main(vararg args: String) {
-  println(mine(secret, 5))
-  println(mine(secret, 6))
+  println(mine(input, 5))
+  println(mine(input, 6))
 }
 
 fun mine(secret: String, len: Int): Int {

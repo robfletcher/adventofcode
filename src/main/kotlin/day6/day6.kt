@@ -83,7 +83,7 @@ data class Coordinate(val x: Int, val y: Int) {
       Coordinate(s.substringBefore(',').toInt(), s.substringAfter(',').toInt())
   }
 
-  fun through(other: Coordinate, callback: Function1<Coordinate, Unit>): Unit =
+  fun through(other: Coordinate, callback: (Coordinate) -> Unit) =
     (x..other.x).forEach { x ->
       (y..other.y).forEach { y ->
         callback.invoke(Coordinate(x, y))

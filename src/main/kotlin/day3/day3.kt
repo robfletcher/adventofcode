@@ -1,15 +1,15 @@
 package day3
 
-val script = ClassLoader.getSystemResource("day3.txt").readText()
+val input = ClassLoader.getSystemResource("day3.txt").readText()
 
 fun main(vararg args: String) {
-  val numHouses = script
+  val numHouses = input
     .fold(Santa()) { santa, direction -> santa.move(direction) }
     .visited
     .size
   println("With 1 santa, visited $numHouses houses")
 
-  val numHousesWithRobo = script
+  val numHousesWithRobo = input
     .fold(Pair(Santa(), Santa())) { santas, direction ->
       Pair(santas.second, santas.first.move(direction))
     }
