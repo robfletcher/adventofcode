@@ -7,29 +7,31 @@ data class Node(val name: String, val paths: Map<String, Int> = mapOf())
 fun main(vararg args: String) {
   buildChart(input)
     .let { chart ->
-      chart.values
-        .map {
-          it.run { findShortest(chart - name, listOf(name), 0) }
-        }
+      chart.keys.map { Pair(it, 0) }.toMap().findRoute(chart)
     }
-    .minBy { it.second }!!
     .apply { println(first.joinToString(" -> ") + " = " + second) }
 }
 
-fun Node.findShortest(remaining: Map<String, Node>,
-                      route: List<String>,
-                      distance: Int)
-  : Pair<List<String>, Int> = when {
-  remaining.isEmpty() -> Pair(route, distance)
-  else -> paths
-    .filter { it.key in remaining.keys }
+fun Map<String, Int>.findRoute(remaining: Map<String, Node>,
+                               route: List<String> = emptyList(),
+                               distance: Int = 0)
+  : Pair<List<String>, Int> =
+  filter { it.key in remaining.keys }
     .map {
       remaining[it.key]!!.run {
-        findShortest(remaining - name, route + name, distance + it.value)
+        findRoute(remaining - name, route + name, distance + it.value)
       }
     }
-    .minBy { it.second }!!
-}
+    .minBy { it.second }!! // change to `maxBy` for second solution
+
+fun Node.findRoute(remaining: Map<String, Node>,
+                   route: List<String>,
+                   distance: Int)
+  : Pair<List<String>, Int> =
+  when {
+    remaining.isEmpty() -> Pair(route, distance)
+    else -> paths.findRoute(remaining, route, distance)
+  }
 
 fun buildChart(input: String): Map<String, Node> =
   input
