@@ -2,43 +2,46 @@ package day09
 
 val input = ClassLoader.getSystemResource("day9.txt").readText()
 
-data class Node(val name: String, val paths: Map<String, Int> = mapOf())
+data class Node(val name: String, val paths: Collection<Path> = emptySet())
+data class Route(val nodes: List<String> = emptyList(), val distance: Int = 0) {
+  override fun toString() = nodes.joinToString(" -> ") + " = " + distance
+}
+
+data class Path(val destination: String, val distance: Int)
 
 fun main(vararg args: String) {
   buildChart(input)
     .let { chart ->
-      chart.map { Pair(it.name, 0) }.toMap().findRoute(chart)
+      chart.map { Path(it.name, 0) }.findRoute(chart)
     }
-    .apply { println(first.joinToString(" -> ") + " = " + second) }
+    .apply(::println)
 }
 
-fun Map<String, Int>.findRoute(remaining: Set<Node>,
-                               route: List<String> = emptyList(),
-                               distance: Int = 0)
-  : Pair<List<String>, Int> =
+fun Collection<Path>.findRoute(remaining: Set<Node>, route: Route = Route())
+  : Route =
   mapNotNull { path ->
-    remaining.find { it.name == path.key }
+    remaining.find { it.name == path.destination }
       ?.let {
-        it.findRoute(remaining - it, route + it.name, distance + path.value)
+        it.findRoute(remaining - it, route + path)
       }
   }
-    .minBy { it.second }!! // change to `maxBy` for second solution
+    .minBy { it.distance }!! // change to `maxBy` for second solution
 
-fun Node.findRoute(remaining: Set<Node>,
-                   route: List<String>,
-                   distance: Int)
-  : Pair<List<String>, Int> =
+fun Node.findRoute(remaining: Set<Node>, route: Route) =
   when {
-    remaining.isEmpty() -> Pair(route, distance)
-    else -> paths.findRoute(remaining, route, distance)
+    remaining.isEmpty() -> route
+    else -> paths.findRoute(remaining, route)
   }
+
+operator fun Route.plus(path: Path) =
+  copy(nodes + path.destination, distance + path.distance)
 
 fun buildChart(input: String): Set<Node> =
   input
     .lines()
     .fold(mapOf<String, Node>()) { nodes, line ->
       val (start, end, distance) = parse(line)
-      nodes.withRoute(start, end, distance)
+      nodes.withPath(start, end, distance)
     }
     .values
     .toSet()
@@ -49,7 +52,7 @@ fun parse(line: String) =
     .groups
     .run { Triple(get(1)!!.value, get(2)!!.value, get(3)!!.value.toInt()) }
 
-fun Map<String, Node>.withRoute(start: String, end: String, distance: Int)
+fun Map<String, Node>.withPath(start: String, end: String, distance: Int)
   : Map<String, Node> {
   val startNode = getOrElse(start) { Node(start) }.withPath(end, distance)
   val endNode = getOrElse(end) { Node(end) }.withPath(start, distance)
@@ -57,4 +60,4 @@ fun Map<String, Node>.withRoute(start: String, end: String, distance: Int)
 }
 
 fun Node.withPath(destination: String, distance: Int) =
-  run { copy(paths = paths + mapOf(destination to distance)) }
+  run { copy(paths = paths + Path(destination, distance)) }
