@@ -7,24 +7,24 @@ data class Node(val name: String, val paths: Map<String, Int> = mapOf())
 fun main(vararg args: String) {
   buildChart(input)
     .let { chart ->
-      chart.keys.map { Pair(it, 0) }.toMap().findRoute(chart)
+      chart.map { Pair(it.name, 0) }.toMap().findRoute(chart)
     }
     .apply { println(first.joinToString(" -> ") + " = " + second) }
 }
 
-fun Map<String, Int>.findRoute(remaining: Map<String, Node>,
+fun Map<String, Int>.findRoute(remaining: Set<Node>,
                                route: List<String> = emptyList(),
                                distance: Int = 0)
   : Pair<List<String>, Int> =
-  filter { it.key in remaining.keys }
-    .map {
-      remaining[it.key]!!.run {
-        findRoute(remaining - name, route + name, distance + it.value)
+  mapNotNull { path ->
+    remaining.find { it.name == path.key }
+      ?.let {
+        it.findRoute(remaining - it, route + it.name, distance + path.value)
       }
-    }
+  }
     .minBy { it.second }!! // change to `maxBy` for second solution
 
-fun Node.findRoute(remaining: Map<String, Node>,
+fun Node.findRoute(remaining: Set<Node>,
                    route: List<String>,
                    distance: Int)
   : Pair<List<String>, Int> =
@@ -33,13 +33,15 @@ fun Node.findRoute(remaining: Map<String, Node>,
     else -> paths.findRoute(remaining, route, distance)
   }
 
-fun buildChart(input: String): Map<String, Node> =
+fun buildChart(input: String): Set<Node> =
   input
     .lines()
     .fold(mapOf<String, Node>()) { nodes, line ->
       val (start, end, distance) = parse(line)
       nodes.withRoute(start, end, distance)
     }
+    .values
+    .toSet()
 
 fun parse(line: String) =
   Regex("""(\w+) to (\w+) = (\d+)""")
@@ -56,5 +58,3 @@ fun Map<String, Node>.withRoute(start: String, end: String, distance: Int)
 
 fun Node.withPath(destination: String, distance: Int) =
   run { copy(paths = paths + mapOf(destination to distance)) }
-
-operator fun <K, V> Map<K, V>.minus(key: K) = filterNot { it.key == key }
