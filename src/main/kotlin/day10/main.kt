@@ -16,7 +16,8 @@ fun lookAndSay(s: String) = s
       else -> Triple(out.append(count).append(ch), 1, c)
     }
   }
-  .run { first.append(second).append(third).toString() }
+  .run { first.append(second).append(third) }
+  .toString()
 
 inline fun <R> Iterable<Any>.generate(initial: R, operation: (R) -> R) =
   fold(initial) { acc, ignored -> operation(acc) }
