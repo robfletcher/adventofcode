@@ -13,14 +13,11 @@ data class Person(val name: String, private val relationships: Map<String, Int> 
 
 data class Layout(val seating: List<Person> = emptyList()) {
   val happiness by lazy {
-    var total = 0
-    seating.forEachIndexed { i, person ->
-      neighbors(person).apply {
-        total += person.happinessWith(first)
-        total += person.happinessWith(second)
+    seating.sumBy {
+      neighbors(it).run {
+        it.happinessWith(first) + it.happinessWith(second)
       }
     }
-    total
   }
 
   operator fun plus(guest: Person) = copy(seating + guest)
