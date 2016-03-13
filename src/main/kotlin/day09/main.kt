@@ -76,8 +76,8 @@ fun buildChart(input: String) =
 fun parse(line: String) =
   Regex("""(\w+) to (\w+) = (\d+)""")
     .matchEntire(line)!!
-    .groups
-    .run { Triple(get(1)!!.value, get(2)!!.value, get(3)!!.value.toInt()) }
+    .groupValues
+    .run { Triple(get(1), get(2), get(3).toInt()) }
 
 /**
  * Upserts [Node]s for both ends of a path with [Path]s connecting them.
